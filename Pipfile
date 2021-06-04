@@ -10,6 +10,8 @@ channels = "*"
 channels-redis = "*"
 django-cors-headers = "*"
 whitenoise = "*"
+psycopg2-binary = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
