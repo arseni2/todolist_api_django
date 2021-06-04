@@ -9,6 +9,7 @@ djangorestframework = "*"
 channels = "*"
 channels-redis = "*"
 django-cors-headers = "*"
+whitenoise = "*"
 
 [dev-packages]
 
