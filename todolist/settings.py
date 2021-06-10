@@ -23,6 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '-yt_&yt!o0i2kkw4nc&u*)$8p2(31@qq90)h4$d578l7y!*p3g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEBUG = True
 # Application definition
 
@@ -50,8 +52,8 @@ CHANNEL_LAYERS = {
 }
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,10 +68,11 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:19002',
     'http://0:8000',
     'http://0.0.0.0:8000',
+    'http://7962c3ab1f12.ngrok.io',
 ]
 ALLOWED_HOSTS = ['*']
 ROOT_URLCONF = 'todolist.urls'
-
+APPEND_SLASH=False
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -100,11 +103,7 @@ DATABASES = {
         'PORT': 5432
     }
 }
-import dj_database_url
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
-db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-DATABASES['default'].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -149,3 +148,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+import django_heroku
+django_heroku.settings(locals())

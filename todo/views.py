@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from todo.models import TodoListModel
 from todo.serializers import TodoListSerializer
 
-class CreateTodo(generics.ListCreateAPIView):
+class CreateTodoS(generics.ListCreateAPIView):
     queryset = TodoListModel.objects.all()
     serializer_class = TodoListSerializer
 
@@ -17,24 +17,30 @@ class EditTodo(generics.RetrieveUpdateAPIView):
     lookup_field = 'id'
     queryset = TodoListModel.objects.all()
     serializer_class = TodoListSerializer
+
 @api_view(['POST', ])
 def addToImportantOrBin(request):
     todo_id = request.POST.get('todo_id')
     current_todo = TodoListModel.objects.get(id=todo_id)
-    if request.POST.get('is_delete'):
-        current_todo.is_delete = True
-    else:
-        current_todo.is_importants = True
+    current_todo.is_importants = True
     current_todo.save()
     s = TodoListSerializer(current_todo).data
     return Response(s)
 @api_view(['POST', ])
-def toComplete(request):
+def addToBin(request):
     todo_id = request.POST.get('todo_id')
     current_todo = TodoListModel.objects.get(id=todo_id)
-    current_todo.is_complete = True
+    current_todo.is_delete = True
     current_todo.save()
-    s = TodoListSerializer(current_todo).data
+    todos = TodoListModel.objects.filter(is_delete=True)
+    s = TodoListSerializer(todos, many=True).data
+    return Response(s)    
+@api_view(['POST', ])
+def todoDelete(request):
+    todo_id = request.POST.get('todo_id')
+    current_todo = TodoListModel.objects.filter(id=todo_id).delete()
+    todos = TodoListModel.objects.filter(is_delete=True)
+    s = TodoListSerializer(todos, many=True).data
     return Response(s)
 
 @api_view(['GET', ])

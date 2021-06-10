@@ -1,12 +1,13 @@
 from django.urls import path
 
-from todo.views import CreateTodo, EditTodo, addToImportantOrBin, ImportantTodo, toComplete, todoBin
+from todo.views import CreateTodoS, EditTodo, addToImportantOrBin, ImportantTodo, todoDelete, todoBin, addToBin
 
 urlpatterns = [
-    path('', CreateTodo.as_view()),
+    path('', CreateTodoS.as_view()),
     path('important/', ImportantTodo.as_view()),
     path('edit/<int:id>', EditTodo.as_view()),
     path('add_important/', addToImportantOrBin),
-    path('add_complete/', toComplete),
+    path('delete/', todoDelete),
     path('todo_bin/', todoBin),
+    path('add_bin/', addToBin),
 ]

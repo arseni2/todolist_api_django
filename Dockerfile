@@ -10,3 +10,4 @@ COPY Pipfile Pipfile.lock /code/
 RUN pip install pipenv && pipenv install --system
 # Copy project
 COPY . /code/
+CMD python3 manage.py runserver 0.0.0.0:$PORT
